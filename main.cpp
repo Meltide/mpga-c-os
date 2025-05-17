@@ -1,4 +1,7 @@
 #include <iostream>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #include "include/utils.hpp"
 #include "include/init.hpp"
