@@ -19,25 +19,29 @@ jobs:
       with:
         submodules: recursive
     
+    - name: Install dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          base-devel
+          cmake
+          ninja
+          make
+
+    # Linux/macOS 步骤保持不变
     - name: Install dependencies (Linux)
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake
-
-    - name: Install dependencies (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        Invoke-WebRequest -Uri https://cmake.org/files/v3.28/cmake-3.28.0-windows-x86_64.msi -OutFile cmake.msi
-        Start-Process -FilePath msiexec -ArgumentList "/i cmake.msi /quiet ADD_CMAKE_TO_PATH=System" -Wait
-        choco install ninja -y
-        refreshenv
+        sudo apt-get install -y build-essential cmake ninja-build
     
     - name: Configure CMake
-      run: cmake -G "${{ matrix.os == 'windows-latest' && 'Ninja' || 'Unix Makefiles' }}" .
+      run: cmake -G Ninja .
       
     - name: Build C-OS
-      run: ${{ matrix.os == 'windows-latest' && 'ninja' || 'make -j$(nproc)' }}
+      run: ninja
       
     - name: Test output
       run: ctest --output-on-failure
