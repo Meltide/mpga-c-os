@@ -60,7 +60,10 @@ public:
             std::getline(std::cin, cmd);
             
             switch (hash(cmd)) {
-                case hash("exit"): login();break;
+                case hash("exit"):
+                    std::cout << "\n";
+                    login();
+                    break;
                 case hash("restart"): run();break;
                 case hash("shutdown"): exit(0);
                 default:

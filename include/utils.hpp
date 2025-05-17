@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include <cstdlib>
+#include <cstring>
 #include <cstdint>
 
 inline int randint(int min, int max) {
@@ -48,7 +49,7 @@ inline std::string decode_base64(const std::string& encoded) {
         if (c == '=') break;
         if (std::isspace(c)) continue;
         
-        const auto* ptr = std::strchr(base64_chars, c);
+        const auto* ptr = strchr(base64_chars, c);
         if (!ptr) throw std::runtime_error("Invalid base64 character");
         
         val = (val << 6) + (ptr - base64_chars);
