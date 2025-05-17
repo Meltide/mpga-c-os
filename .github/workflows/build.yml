@@ -2,9 +2,9 @@ name: Build MPGA C-OS
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -27,5 +27,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: c-os
-        path: **/*  
+        path: c-os
         if-no-files-found: error
