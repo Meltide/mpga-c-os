@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: recursive
     
     - name: Install dependencies (Linux)
       if: matrix.os == 'ubuntu-latest'
@@ -26,16 +28,15 @@ jobs:
     - name: Install dependencies (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-        choco install make
+        Invoke-WebRequest -Uri https://cmake.org/files/v3.28/cmake-3.28.0-windows-x86_64.msi -OutFile cmake.msi
+        Start-Process -FilePath msiexec -ArgumentList "/i cmake.msi /quiet ADD_CMAKE_TO_PATH=System" -Wait
+        choco install ninja -y
+        refreshenv
     
     - name: Configure CMake
-      run: cmake -G "${{ matrix.os == 'windows-latest' && 'Ninja' || 'Unix Makefiles' }}" ..
-    
-    - name: Build C-OS
-      run: cmake .
+      run: cmake -G "${{ matrix.os == 'windows-latest' && 'Ninja' || 'Unix Makefiles' }}" .
       
-    - name: Make C-OS
+    - name: Build C-OS
       run: ${{ matrix.os == 'windows-latest' && 'ninja' || 'make -j$(nproc)' }}
       
     - name: Test output
