@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="res/logo.png" height="114px">
+
 # MPGA C-OS
 ![GitHub repo size](https://img.shields.io/github/repo-size/Meltide/mpga-c-os)
 ![GitHub Repo stars](https://img.shields.io/github/stars/Meltide/mpga-c-os?style=flat)
