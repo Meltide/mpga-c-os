@@ -32,8 +32,7 @@ cmake . && make
 1. 转到项目所在目录
 2. 输入以下命令开始构建
 ```powershell
-cmake -G Ninja .
-ninja
+cmake -G Ninja . && ninja
 ```
 
 ### 方法2: 使用已编译文件
