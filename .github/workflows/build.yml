@@ -8,14 +8,27 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+  
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Build
       run: cmake .
+      
     - name: Make
       run: make
+      
     - name: Test
       run: ctest --output-on-failure
+
+    - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: c-os
+          path: **
