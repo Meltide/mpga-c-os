@@ -29,11 +29,14 @@ jobs:
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install make
     
+    - name: Configure CMake
+      run: cmake -G "${{ matrix.os == 'windows-latest' && 'Ninja' || 'Unix Makefiles' }}" ..
+    
     - name: Build C-OS
       run: cmake .
       
     - name: Make C-OS
-      run: make
+      run: ${{ matrix.os == 'windows-latest' && 'ninja' || 'make -j$(nproc)' }}
       
     - name: Test output
       run: ctest --output-on-failure
@@ -42,7 +45,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: c-os-${{ matrix.os }}
-        path: |
-          c-os
-          c-os.*
+        path: c-os*
         if-no-files-found: error
