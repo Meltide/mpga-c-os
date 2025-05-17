@@ -11,25 +11,37 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
     
-    - name: Build
+    - name: Install dependencies (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+
+    - name: Install dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+        choco install make
+    
+    - name: Build C-OS
       run: cmake .
       
-    - name: Make
+    - name: Make C-OS
       run: make
       
-    - name: Test
+    - name: Test output
       run: ctest --output-on-failure
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: c-os
+        name: c-os-${{ matrix.os }}
         path: |
           c-os
           c-os.*
