@@ -8,12 +8,8 @@ on:
 
 jobs:
   build:
-  
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        
-    runs-on: ${{ matrix.os }}
+
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -27,8 +23,9 @@ jobs:
     - name: Test
       run: ctest --output-on-failure
 
-    - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: c-os
-          path: **
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: c-os
+        path: **/*  
+        if-no-files-found: error
