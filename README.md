@@ -18,6 +18,7 @@
 
 ### 方法1: 自行编译
 
+#### 对于 Linxu 用户
 0. 安装以下软件包: `gcc-c++`, `cmake`, `make`
 1. 转到项目所在目录
 2. 输入以下命令开始构建
@@ -26,11 +27,20 @@ cmake . && make
 ```
 3. 输入 `./c-os` 来启动
 
+#### 对于 Windows 用户
+0. 安装以下软件包: `cmake`, `ninja`
+1. 转到项目所在目录
+2. 输入以下命令开始构建
+```powershell
+cmake -G Ninja .
+ninja
+```
+
 ### 方法2: 使用已编译文件
 
 1. 从[Releases](https://github.com/Meltide/mpga-c-os/release)下载已编译版本
 2. 转到已编译文件所在的目录
-3. 输入 `./c-os` 来启动
+3. Linux 输入 `./c-os` 来启动，Windows 运行 `c-os.exe` 来启动
 
 > [!WARNING]
 > 必须在 `main.cpp` 所在的目录下运行 `c-os`

@@ -30,7 +30,6 @@ jobs:
           ninja
           make
 
-    # Linux/macOS 步骤保持不变
     - name: Install dependencies (Linux)
       if: matrix.os == 'ubuntu-latest'
       run: |
